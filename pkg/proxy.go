@@ -98,6 +98,8 @@ func (p *Proxy) Run(ctx context.Context) {
 			continue
 		}
 
+		p.recvPackets.Add(1)
+
 		_, err = p.destConn.Write(buf[:n])
 		if err != nil {
 			p.l.Warn("failed to write to destination",
@@ -106,5 +108,7 @@ func (p *Proxy) Run(ctx context.Context) {
 			)
 			continue
 		}
+
+		p.deliveredPackets.Add(1)
 	}
 }
